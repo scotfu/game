@@ -13,10 +13,10 @@
 <body>
 <h1 class="text-center">Game</h1>
 <div class="container">
-<h3>Time: 20 seconds left</h3>
+<h3 class="timer">Time: 20 seconds left</h3>
 
 <div class="progress progress-striped active">
-  <div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 10%">
+  <div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
     <span class="sr-only">45% Complete</span>
   </div>
 
@@ -55,37 +55,83 @@
   <label class="btn btn-default">
     <input type="checkbox"> Shape 10
   </label>
-  <label class="btn btn-default disabled">
+  <label class="btn btn-default">
     <input type="checkbox"> Shape 11
   </label>
-  <label class="btn btn-default active disabled">
+  <label class="btn btn-default">
     <input type="checkbox"> Shape 12
   </label>
 </div>
 
 <table class="table table-bordered">
-<tr><th>No</th><th>Result</th><th>score</th>
+<tr><th>Player</th><th>Result</th><th>Score</th>
 
 <!-- On cells (`td` or `th`) -->
 <tr>
-  <td class="active">2</td>
-  <td class="success">1111111111</td>
-  <td class="warning">1</td>
+  <td class="active">Me</td>
+  <td class="success">None</td>
+  <td class="warning">None</td>
 
 </tr>
 </table>
 
-<script type="text/javascript">
-
-function timer()
-{
-$
-}
-
-</script> 
 
 </div><!--container -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+
+
+<script type="text/javascript">
+time_limit=5;
+width=0;
+augment= 100.0/time_limit;
+
+function timer(){
+if(time_limit>=0){
+$(".timer").html("Time: "+ time_limit.toString()+" seconds left");
+
+//width_value = "width:"+ width.toString() +"%";
+//width = width + augment;
+//$(".progress-bar").attr("style",width_value);
+time_limit--;
+setTimeout("timer()",1000);
+}
+else{
+$(".timer").html("Time is up");
+$(".btn-default").addClass("disabled")
+result = "";
+
+$('input[type=checkbox]').each(function () {
+    var sThisVal = (this.checked ? "1" : "0");
+    result = result.concat(sThisVal);
+});
+$(".success").html(result);
+$(".warning").html("TBD");
+}
+}
+
+function pro_bar(){
+if(time_limit>=-1){
+width_value = "width:"+ width.toString() +"%";
+width = width + augment/10.0;
+$(".progress-bar").attr("style",width_value);
+setTimeout("pro_bar()",100);
+}
+
+
+}
+
+
+
+
+
+$(document).ready(function() {
+timer();
+pro_bar();
+})
+
+</script> 
+
 </body>
 </html>
