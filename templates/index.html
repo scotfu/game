@@ -83,7 +83,7 @@
 
 
 <script type="text/javascript">
-time_limit=5;
+time_limit=20.0;
 width=0;
 augment= 100.0/time_limit;
 
@@ -108,18 +108,22 @@ $('input[type=checkbox]').each(function () {
 });
 $(".success").html(result);
 $(".warning").html("TBD");
+
 }
 }
 
 function pro_bar(){
-if(time_limit>=-1){
-width_value = "width:"+ width.toString() +"%";
+if(time_limit>-1){
 width = width + augment/10.0;
+width_value = "width:"+ width.toString() +"%";
+
 $(".progress-bar").attr("style",width_value);
+
 setTimeout("pro_bar()",100);
 }
-
-
+else{
+$(".progress-bar").attr("style","width:100%");
+}
 }
 
 
@@ -127,6 +131,7 @@ setTimeout("pro_bar()",100);
 
 
 $(document).ready(function() {
+
 timer();
 pro_bar();
 })
