@@ -1,8 +1,8 @@
 from django.conf.urls import patterns, include, url
-
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
+from django.contrib import admin
+from django.conf import settings
+from django.views.generic.base import TemplateView
+admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
@@ -13,5 +13,15 @@ urlpatterns = patterns('',
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+     url(r'^admin/', include(admin.site.urls)),
+     url(r'^', include('records.urls')),
+     url(r'^$', TemplateView.as_view(template_name='index.html')),
 )
+
+urlpatterns += patterns('',
+    url(r'^static/(?P<path>.*)$',
+        'django.views.static.serve',
+        {'document_root': settings.STATIC_ROOT, },
+        name='static'),
+                    )
+
