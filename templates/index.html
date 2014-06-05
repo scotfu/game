@@ -13,68 +13,71 @@
 <body>
 <h1 class="text-center">Game</h1>
 <div class="container">
-<h3 class="timer">Time: 20 seconds left</h3>
+<h3 class="timer text-center">Time: 20 seconds left</h3>
 
+<div class="row ">
 <div class="progress progress-striped active">
   <div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
     <span class="sr-only">45% Complete</span>
   </div>
-
-
+</div>
 </div>
 
-
+<div class="center-block row">
 <div class="btn-group" data-toggle="buttons">
   <label class="btn btn-default">
     <input type="checkbox"> 
-<img src="static/images/1.png" alt="Shape 1" height="68" width="68"  style="opacity: 0.9;">
+<img src="static/images/1.png" alt="Shape 1" height="68" width="68" style="opacity: 0.9;">
   </label>
   <label class="btn btn-default">
     <input type="checkbox">
-<img src="static/images/2.png" alt="Shape 2" height="68" width="68" >
+<img src="static/images/2.png" alt="Shape 2" height="68" width="68" style="opacity: 0.9;">
+  </label> 
+  <label class="btn btn-default">
+    <input type="checkbox"> 
+<img src="static/images/3.png" alt="Shape 3" height="68" width="68" style="opacity: 0.9;">
   </label>
   <label class="btn btn-default">
     <input type="checkbox"> 
-<img src="static/images/3.png" alt="Shape 3" height="68" width="68">
-  </label>
-  <label class="btn btn-default">
-    <input type="checkbox"> 
-<img src="static/images/4.png" alt="Shape 4" height="68" width="68">
+<img src="static/images/4.png" alt="Shape 4" height="68" width="68" style="opacity: 0.9;">
   </label>
   <label class="btn btn-default">
     <input type="checkbox">
-<img src="static/images/5.png" alt="Shape 5" height="68" width="68">
+<img src="static/images/5.png" alt="Shape 5" height="68" width="68" style="opacity: 0.9;">
   </label>
   <label class="btn btn-default">
     <input type="checkbox"> 
-<img src="static/images/6.png" alt="Shape 6" height="68" width="68">
+<img src="static/images/6.png" alt="Shape 6" height="68" width="68" style="opacity: 0.9;">
   </label>
   <label class="btn btn-default">
     <input type="checkbox"> 
-<img src="static/images/7.png" alt="Shape 7" height="68" width="68">
+<img src="static/images/7.png" alt="Shape 7" height="68" width="68" style="opacity: 0.9;">
   </label>
   <label class="btn btn-default">
     <input type="checkbox"> 
-<img src="static/images/8.png" alt="Shape 8" height="68" width="68">
+<img src="static/images/8.png" alt="Shape 8" height="68" width="68" style="opacity: 0.9;">
   </label>
   <label class="btn btn-default">
     <input type="checkbox"> 
-<img src="static/images/9.png" alt="Shape 9" height="68" width="68">
+<img src="static/images/9.png" alt="Shape 9" height="68" width="68" style="opacity: 0.9;">
   </label>
   <label class="btn btn-default">
     <input type="checkbox"> 
-<img src="static/images/10.png" alt="Shape 10" height="68" width="68">
+<img src="static/images/10.png" alt="Shape 10" height="68" width="68" style="opacity: 0.9;">
   </label>
   <label class="btn btn-default">
     <input type="checkbox"> 
-<img src="static/images/11.png" alt="Shape 11" height="68" width="68">
+<img src="static/images/11.png" alt="Shape 11" height="68" width="68" style="opacity: 0.9;">
   </label>
   <label class="btn btn-default">
     <input type="checkbox"> 
-<img src="static/images/12.png" alt="Shape 12" height="68" width="68">
+<img src="static/images/12.png" alt="Shape 12" height="68" width="68" style="opacity: 0.9;">
   </label>
 </div>
+</div>
 
+<h3 class="text-center">Scores</h3>
+<div class="table-responsive">
 <table class="table table-bordered">
 <tr><th>Player</th><th>Result</th><th>Score</th>
 
@@ -86,6 +89,9 @@
 
 </tr>
 </table>
+</div>
+
+
 
  {% csrf_token %}
 </div><!--container -->
@@ -95,7 +101,7 @@
 
 
 <script type="text/javascript">
-time_limit=4.0;
+time_limit=5.0;
 width=0;
 augment= 100.0/time_limit;
 
