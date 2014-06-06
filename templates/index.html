@@ -13,6 +13,8 @@
 <body>
 <h1 class="text-center">Game</h1>
 <div class="container">
+<h4>Group:{{group_id}}</h4>
+<h4> {{player}} &nbsp Round:{{g_round}}</h4>
 <h3 class="timer text-center">Time: 20 seconds left</h3>
 
 <div class="row ">
@@ -78,12 +80,12 @@
 
 <h3 class="text-center">Scores</h3>
 <div class="table-responsive">
-<table class="table table-bordered">
+<table id="scores" class="table table-bordered">
 <tr><th>Player</th><th>Result</th><th>Score</th>
 
 <!-- On cells (`td` or `th`) -->
 <tr>
-  <td class="active">Me</td>
+  <td class="active">{{player}}</td>
   <td class="success">None</td>
   <td class="warning">None</td>
 
@@ -104,6 +106,34 @@
 time_limit=5.0;
 width=0;
 augment= 100.0/time_limit;
+
+
+function pull(){
+
+$.ajax({
+  type: "GET",
+  url: "record/pull/",
+  data: {"group_id":"{{group_id}}",
+         "player":"{{player}}", 
+         "g_round":"{{g_round}}",
+         //"csrfmiddlewaretoken":$("input[name=csrfmiddlewaretoken]").val(),
+},
+  success: function(data) {
+   
+   $.each(data["records"],function(index,record){
+$("#scores tr:last").after("<tr><td>"+ record["player"] +"</td><td>"+ record["result"] + "</td><td>None</td></tr>");})
+//alert(data)
+            },
+  error : function(httpReq,status,exception){
+                alert(status+" "+exception);
+            }
+,
+  dataType: "json",
+});
+
+
+}
+
 
 function timer(){
 if(time_limit>=0){
@@ -130,13 +160,15 @@ $(".warning").html("TBD");
 
 $.ajax({
   type: "POST",
-  url: "record/result/",
+  url: "record/push/",
   data: {"result":result,
-         "player":"test player", 
+         "player":"{{player}}", 
+         "g_round":"{{g_round}}",
          "csrfmiddlewaretoken":$("input[name=csrfmiddlewaretoken]").val(),
 },
   success: function(data) {              
 //alert(data)
+         pull();
             },
   error : function(httpReq,status,exception){
                 alert(status+" "+exception);
@@ -144,6 +176,8 @@ $.ajax({
 ,
   dataType: "json",
 });
+
+
 
 
 }
@@ -171,6 +205,11 @@ $(document).ready(function() {
 
 timer();
 pro_bar();
+
+
+
+
+
 })
 
 </script> 
