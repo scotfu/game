@@ -103,10 +103,11 @@
 
 
 <script type="text/javascript">
+pre_time_limit = 5.0;
 time_limit=5.0;
 width=0;
 augment= 100.0/time_limit;
-
+READY = "false"
 
 function pull(){
 
@@ -133,6 +134,28 @@ $("#scores tr:last").after("<tr><td>"+ record["player"] +"</td><td>"+ record["re
 
 
 }
+
+
+
+function pre_timer(){
+if(pre_time_limit>=0){
+$(".timer").html("The game will start in : "+ pre_time_limit.toString()+" seconds");
+pre_time_limit--;
+setTimeout("pre_timer()",1000);
+}
+else{
+timer();
+pro_bar();
+
+}
+}
+
+
+
+
+
+
+
 
 
 function timer(){
@@ -198,14 +221,47 @@ $(".progress-bar").attr("style","width:100%");
 }
 
 
+function player_status(){
+if(READY == "false"){
+$.ajax({
+  type: "GET",
+  url: "/player_status/",
+  data: {
+         "player":"{{player}}", 
+         "group_id":"{{group_id}}",
+         "csrfmiddlewaretoken":$("input[name=csrfmiddlewaretoken]").val(),
+},
+  success: function(data) {
+            if(data["result"]=="true"){
+               READY="true";
 
+               pre_timer();
+             }
+else{
+$(".timer").html(data["msg"]);
+}
+
+            },
+  error : function(httpReq,status,exception){
+                alert(status+" "+exception);
+            }
+,
+  dataType: "json",
+});
+
+setTimeout("player_status()",1000);
+
+}
+
+else{
+
+
+}
+}
 
 
 $(document).ready(function() {
-
-timer();
-pro_bar();
-
+player_status();
 
 
 
