@@ -28,6 +28,74 @@
 <div class="center-block row">
 <div class="btn-group" data-toggle="buttons">
   <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="static/images/1.png" alt="Shape 1" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current">
+<img src="static/images/2.png" alt="Shape 2" height="68" width="68" style="opacity: 0.9;">
+  </label> 
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="static/images/3.png" alt="Shape 3" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="static/images/4.png" alt="Shape 4" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current">
+<img src="static/images/5.png" alt="Shape 5" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="static/images/6.png" alt="Shape 6" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="static/images/7.png" alt="Shape 7" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="static/images/8.png" alt="Shape 8" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="static/images/9.png" alt="Shape 9" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="static/images/10.png" alt="Shape 10" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="static/images/11.png" alt="Shape 11" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="static/images/12.png" alt="Shape 12" height="68" width="68" style="opacity: 0.9;">
+  </label>
+</div>
+</div>
+
+<h3 class="text-center">Scores</h3>
+<div class="table-responsive">
+<table id="scores" class="table table-bordered">
+<tr><th>Player</th><th>Result</th><th>Score</th>
+
+<!-- On cells (`td` or `th`) -->
+<tr>
+  <td class="active">{{player}}</td>
+  <td class="success">None</td>
+  <td class="warning">None</td>
+
+</tr>
+</table>
+</div>
+
+
+<div class="btn-group others" data-toggle="buttons" style="display:none">
+  <label class="btn btn-default">
     <input type="checkbox"> 
 <img src="static/images/1.png" alt="Shape 1" height="68" width="68" style="opacity: 0.9;">
   </label>
@@ -76,22 +144,8 @@
 <img src="static/images/12.png" alt="Shape 12" height="68" width="68" style="opacity: 0.9;">
   </label>
 </div>
-</div>
 
-<h3 class="text-center">Scores</h3>
-<div class="table-responsive">
-<table id="scores" class="table table-bordered">
-<tr><th>Player</th><th>Result</th><th>Score</th>
 
-<!-- On cells (`td` or `th`) -->
-<tr>
-  <td class="active">{{player}}</td>
-  <td class="success">None</td>
-  <td class="warning">None</td>
-
-</tr>
-</table>
-</div>
 
 
 
@@ -103,8 +157,8 @@
 
 
 <script type="text/javascript">
-pre_time_limit = 5.0;
-time_limit=5.0;
+pre_time_limit = 1.0;
+time_limit=1.0;
 width=0;
 augment= 100.0/time_limit;
 READY = "false"
@@ -120,8 +174,18 @@ $.ajax({
          //"csrfmiddlewaretoken":$("input[name=csrfmiddlewaretoken]").val(),
 },
   success: function(data) {
-   
-   $.each(data["records"],function(index,record){
+
+
+$(".others .btn-default").each(function (index){
+ console.log(index);
+if(data["records"][0]["result"][index]=="1"){
+ $(this).addClass("active");
+}
+
+})
+$(".others").show();
+        
+$.each(data["records"],function(index,record){
 $("#scores tr:last").after("<tr><td>"+ record["player"] +"</td><td>"+ record["result"] + "</td><td>None</td></tr>");})
 //alert(data)
             },
@@ -170,10 +234,10 @@ setTimeout("timer()",1000);
 }
 else{
 $(".timer").html("Time is up");
-$(".btn-default").addClass("disabled")
+$(".btn-default").addClass("disabled");
 result = "";
 
-$('input[type=checkbox]').each(function () {
+$('input[type=checkbox].current').each(function () {
     var sThisVal = (this.checked ? "1" : "0");
     result = result.concat(sThisVal);
 });
