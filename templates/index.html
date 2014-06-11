@@ -14,7 +14,7 @@
 <h1 class="text-center">Game</h1>
 <div class="container">
 <h4>Group:{{group_id}}</h4>
-<h4> {{player}} &nbsp Round:{{g_round}}</h4>
+<h1 class="round_title"> {{player}} &nbsp Round:{{g_round}}</h1>
 <h3 class="timer text-center">Time: 20 seconds left</h3>
 
 <div class="row ">
@@ -76,61 +76,9 @@
 <img src="static/images/12.png" alt="Shape 12" height="68" width="68" style="opacity: 0.9;">
   </label>
 </div>
-</div>
 
+</div>
 <br/>
-
-
-<div class="btn-group others" data-toggle="buttons" style="display:none">
-  <label class="btn btn-default">
-    <input type="checkbox"> 
-<img src="static/images/1.png" alt="Shape 1" height="68" width="68" style="opacity: 0.9;">
-  </label>
-  <label class="btn btn-default">
-    <input type="checkbox">
-<img src="static/images/2.png" alt="Shape 2" height="68" width="68" style="opacity: 0.9;">
-  </label> 
-  <label class="btn btn-default">
-    <input type="checkbox"> 
-<img src="static/images/3.png" alt="Shape 3" height="68" width="68" style="opacity: 0.9;">
-  </label>
-  <label class="btn btn-default">
-    <input type="checkbox"> 
-<img src="static/images/4.png" alt="Shape 4" height="68" width="68" style="opacity: 0.9;">
-  </label>
-  <label class="btn btn-default">
-    <input type="checkbox">
-<img src="static/images/5.png" alt="Shape 5" height="68" width="68" style="opacity: 0.9;">
-  </label>
-  <label class="btn btn-default">
-    <input type="checkbox"> 
-<img src="static/images/6.png" alt="Shape 6" height="68" width="68" style="opacity: 0.9;">
-  </label>
-  <label class="btn btn-default">
-    <input type="checkbox"> 
-<img src="static/images/7.png" alt="Shape 7" height="68" width="68" style="opacity: 0.9;">
-  </label>
-  <label class="btn btn-default">
-    <input type="checkbox"> 
-<img src="static/images/8.png" alt="Shape 8" height="68" width="68" style="opacity: 0.9;">
-  </label>
-  <label class="btn btn-default">
-    <input type="checkbox"> 
-<img src="static/images/9.png" alt="Shape 9" height="68" width="68" style="opacity: 0.9;">
-  </label>
-  <label class="btn btn-default">
-    <input type="checkbox"> 
-<img src="static/images/10.png" alt="Shape 10" height="68" width="68" style="opacity: 0.9;">
-  </label>
-  <label class="btn btn-default">
-    <input type="checkbox"> 
-<img src="static/images/11.png" alt="Shape 11" height="68" width="68" style="opacity: 0.9;">
-  </label>
-  <label class="btn btn-default">
-    <input type="checkbox"> 
-<img src="static/images/12.png" alt="Shape 12" height="68" width="68" style="opacity: 0.9;">
-  </label>
-</div>
 
 
 
@@ -150,7 +98,7 @@ width=0; // pro bar
 augment= 100.0/time_limit;
 READY = "false";
 ROUND_FINISHED = "false";
-
+ROUND_NUM = 3
 //pull data of others
 function pull(){
 $.ajax({
@@ -163,11 +111,23 @@ $.ajax({
 },
   success: function(data) {
 
-$(".others .btn-default").each(function (index){ //todo here
-if(data["records"][0]["result"][index]=="1"){
- $(this).addClass("active");
+for(var i=0;i<data["records"].length;i++){
+$(".container").append(data["records"][i]["player"]);
+$(".btn-group.self").clone().removeClass("self").addClass("others").appendTo(".container");
+$(".container").append("<br/>");
 }
-})
+$(".btn-group.others").each(function (index_d){
+
+$(this).find(".btn-default").each(function (index){ //todo here
+                if(data["records"][index_d]["result"][index]=="1")
+                {
+
+                $(this).addClass("active");
+                }else{$(this).removeClass("active");}
+                
+                })
+
+                })
 
 $(".others").show();
 ROUND_FINISHED = "true"
@@ -209,7 +169,7 @@ $(".timer").html("Time is up");
 $(".btn-default").addClass("disabled");
 result = "";
 
-$('input[type=checkbox].current').each(function () {
+$(".self input[type=checkbox].current").each(function () {
     var sThisVal = (this.checked ? "1" : "0");
     result = result.concat(sThisVal);
 });
@@ -307,7 +267,8 @@ setTimeout("round()",2000);
 }
 else{
  console.log(1000);
-pre_time_limit = {{PRE_TIMER}}
+ROUND_NUM = ROUND_NUM - 1;
+pre_time_limit = {{PRE_TIMER}};
 time_limit={{TIMER}};//timer for each round
 setTimeout("pre_timer()",1000);
 width=0; // pro bar
@@ -318,7 +279,7 @@ width=0; // pro bar
 $(document).ready(function() {
 $(".btn-default").addClass("disabled");
 player_status();
-round();
+
 
 
 
