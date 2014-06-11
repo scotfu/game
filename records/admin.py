@@ -5,7 +5,7 @@ from .models import Record,Group,Parameter
 
 
 class RecordAdmin(admin.ModelAdmin):
-    list_display = ('id','player','result','create_date')
+    list_display = ('id','player','result','g_round','create_date')
 
 class GroupAdmin(admin.ModelAdmin):
     list_display = ('id','name','num_of_players','create_date')

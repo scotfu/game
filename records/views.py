@@ -43,7 +43,8 @@ def push(request):
         result = request.POST.get('result',None)
         player = request.POST.get('player',None)
         group_id = request.session.get('group_id',None)
-        g_round = request.session.get('g_round',1)
+        g_round = request.POST.get('g_round',None)
+        print g_round
         try:
             group = Group.objects.get(id=group_id)
             Record.objects.create(result=result, player=player, group=group, g_round=g_round)
@@ -57,6 +58,7 @@ def push(request):
 @json_response
 def pull(request):
     if request.method =='GET':
+        NUM_OF_PLAYERS = int(Parameter.objects.filter(name="NUM_OF_PLAYERS")[0].value)
         timeout = 5
         group_id = request.session.get('group_id',None)
         player = request.GET.get('player',None)
@@ -64,12 +66,13 @@ def pull(request):
         
         data = {}
         data['records']=[]
-        while not data['records'] and timeout:
+        while len(data['records'])!= NUM_OF_PLAYERS and timeout:
             try:
                 group = Group.objects.get(id=group_id)
-                records = Record.objects.filter(~Q(player=player),group=group, g_round=1)
+                records = Record.objects.filter(~Q(player=player),group=group, g_round=g_round)
             except Exception as e:
                 return {'result':'false','msg':e}
+            data['records']=[]
             for record in records:
                     data['records'].append(
                                   {'player':record.player,
