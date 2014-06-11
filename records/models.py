@@ -31,3 +31,15 @@ class Group(models.Model):
     class Meta:
         verbose_name_plural = "Groups"
         
+class Parameter(models.Model):
+    
+    name = models.CharField(max_length=100)
+    value = models.CharField(max_length=100)
+    create_date=models.DateTimeField(auto_now_add=True)
+    
+    def __unicode__(self):
+        return str(self.name)
+
+    class Meta:
+        verbose_name_plural = "Parameters"
+        

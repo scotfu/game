@@ -10,9 +10,9 @@ from django.db.models import Count
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 
-from .models import Record,Group
+from .models import Record,Group,Parameter
 
-NUM_OF_PLAYERS = 2
+
 
 @csrf_exempt
 def json_response(func):
@@ -83,6 +83,7 @@ def pull(request):
 @json_response
 def player_status(request):
     if request.method =='GET':
+        NUM_OF_PLAYERS = int(Parameter.objects.filter(name="NUM_OF_PLAYERS")[0].value)
         group_id = request.session.get('group_id',None)
         g_round = request.GET.get('g_round',None)
         data = {}
@@ -103,6 +104,9 @@ def player_status(request):
 def render_game(request):
     request.session.set_expiry(0)
     if request.method =='GET':
+        NUM_OF_PLAYERS = int(Parameter.objects.filter(name="NUM_OF_PLAYERS")[0].value)
+        PRE_TIMER = Parameter.objects.filter(name="PRE_TIMER")[0].value
+        TIMER = Parameter.objects.filter(name="TIMER_ROUND")[0].value
         group_id = request.session.get('group_id', False)
         player = request.session.get('player', False)
         g_round = request.session.get('g_round', 1)
@@ -124,7 +128,10 @@ def render_game(request):
         return render_to_response('index.html', {
                                   'group_id': group_id,
                                   'player':player,
-                                  'g_round':g_round},
+                                  'g_round':g_round,
+                                   'PRE_TIMER':PRE_TIMER,
+                                    'TIMER':TIMER,
+                                    },
                                   context_instance=RequestContext(request))
     else:
         return Http404

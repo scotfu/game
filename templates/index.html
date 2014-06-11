@@ -26,7 +26,7 @@
 </div>
 
 <div class="center-block row">
-<div class="btn-group" data-toggle="buttons">
+<div class="btn-group self" data-toggle="buttons">
   <label class="btn btn-default">
     <input type="checkbox" class="current"> 
 <img src="static/images/1.png" alt="Shape 1" height="68" width="68" style="opacity: 0.9;">
@@ -78,20 +78,7 @@
 </div>
 </div>
 
-<h3 class="text-center">Scores</h3>
-<div class="table-responsive">
-<table id="scores" class="table table-bordered">
-<tr><th>Player</th><th>Result</th><th>Score</th>
-
-<!-- On cells (`td` or `th`) -->
-<tr>
-  <td class="active">{{player}}</td>
-  <td class="success">None</td>
-  <td class="warning">None</td>
-
-</tr>
-</table>
-</div>
+<br/>
 
 
 <div class="btn-group others" data-toggle="buttons" style="display:none">
@@ -157,37 +144,33 @@
 
 
 <script type="text/javascript">
-pre_time_limit = 1.0;
-time_limit=1.0;
-width=0;
+pre_time_limit = {{PRE_TIMER}}
+time_limit={{TIMER}};//timer for each round
+width=0; // pro bar
 augment= 100.0/time_limit;
-READY = "false"
+READY = "false";
+ROUND_FINISHED = "false";
 
+//pull data of others
 function pull(){
-
 $.ajax({
   type: "GET",
   url: "record/pull/",
   data: {"group_id":"{{group_id}}",
          "player":"{{player}}", 
          "g_round":"{{g_round}}",
-         //"csrfmiddlewaretoken":$("input[name=csrfmiddlewaretoken]").val(),
+         //"csrfmiddlewaretoken":$("input[name=csrfmiddlewaretoken]").val(), using get, no need for csrf
 },
   success: function(data) {
 
-
-$(".others .btn-default").each(function (index){
- console.log(index);
+$(".others .btn-default").each(function (index){ //todo here
 if(data["records"][0]["result"][index]=="1"){
  $(this).addClass("active");
 }
-
 })
+
 $(".others").show();
-        
-$.each(data["records"],function(index,record){
-$("#scores tr:last").after("<tr><td>"+ record["player"] +"</td><td>"+ record["result"] + "</td><td>None</td></tr>");})
-//alert(data)
+ROUND_FINISHED = "true"
             },
   error : function(httpReq,status,exception){
                 alert(status+" "+exception);
@@ -195,10 +178,7 @@ $("#scores tr:last").after("<tr><td>"+ record["player"] +"</td><td>"+ record["re
 ,
   dataType: "json",
 });
-
-
 }
-
 
 
 function pre_timer(){
@@ -208,6 +188,7 @@ pre_time_limit--;
 setTimeout("pre_timer()",1000);
 }
 else{
+$(".self .btn-default").removeClass("disabled");
 timer();
 pro_bar();
 
@@ -216,21 +197,12 @@ pro_bar();
 
 
 
-
-
-
-
-
-
 function timer(){
 if(time_limit>=0){
 $(".timer").html("Time: "+ time_limit.toString()+" seconds left");
-
-//width_value = "width:"+ width.toString() +"%";
-//width = width + augment;
-//$(".progress-bar").attr("style",width_value);
-time_limit--;
 setTimeout("timer()",1000);
+time_limit--;
+
 }
 else{
 $(".timer").html("Time is up");
@@ -241,8 +213,9 @@ $('input[type=checkbox].current').each(function () {
     var sThisVal = (this.checked ? "1" : "0");
     result = result.concat(sThisVal);
 });
-$(".success").html(result);
-$(".warning").html("TBD");
+
+
+
 //post data to the server
 
 $.ajax({
@@ -301,9 +274,9 @@ $.ajax({
 
                pre_timer();
              }
-else{
-$(".timer").html(data["msg"]);
-}
+           else{
+           $(".timer").html(data["msg"]);
+            }
 
             },
   error : function(httpReq,status,exception){
@@ -324,8 +297,28 @@ else{
 }
 
 
+
+function round(){
+
+if(ROUND_FINISHED=="false"){
+
+setTimeout("round()",2000);
+ console.log(1);
+}
+else{
+ console.log(1000);
+pre_time_limit = {{PRE_TIMER}}
+time_limit={{TIMER}};//timer for each round
+setTimeout("pre_timer()",1000);
+width=0; // pro bar
+}
+
+}
+
 $(document).ready(function() {
+$(".btn-default").addClass("disabled");
 player_status();
+round();
 
 
 
