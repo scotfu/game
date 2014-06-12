@@ -107,6 +107,7 @@ def player_status(request):
 def render_game(request):
     request.session.set_expiry(0)
     if request.method =='GET':
+        NUM_OF_ROUNDS = int(Parameter.objects.filter(name="NUM_OF_ROUNDS")[0].value)
         NUM_OF_PLAYERS = int(Parameter.objects.filter(name="NUM_OF_PLAYERS")[0].value)
         PRE_TIMER = Parameter.objects.filter(name="PRE_TIMER")[0].value
         TIMER = Parameter.objects.filter(name="TIMER_ROUND")[0].value
@@ -132,8 +133,9 @@ def render_game(request):
                                   'group_id': group_id,
                                   'player':player,
                                   'g_round':g_round,
-                                   'PRE_TIMER':PRE_TIMER,
-                                    'TIMER':TIMER,
+                                  'PRE_TIMER':PRE_TIMER,
+                                  'TIMER':TIMER,
+                                  'NUM_OF_ROUNDS':NUM_OF_ROUNDS,
                                     },
                                   context_instance=RequestContext(request))
     else:
