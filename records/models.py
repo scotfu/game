@@ -3,6 +3,8 @@
 from django.db import models
 
 
+
+
 class Record(models.Model):
 
     player = models.CharField(max_length=100)
@@ -10,7 +12,14 @@ class Record(models.Model):
     g_round = models.IntegerField()
     group = models.ForeignKey('Group')
     create_date=models.DateTimeField(auto_now_add=True, verbose_name='finshed time')
-    
+
+    def time_seconds(self):
+        return self.create_date.strftime("%Y-%m-%d %H:%M:%S")
+
+    time_seconds.admin_order_field = 'create_date'
+    time_seconds.short_description = 'Precise Time'
+        
+
     def __unicode__(self):
         return self.result
 
@@ -24,6 +33,13 @@ class Group(models.Model):
     num_of_players = models.IntegerField()
     memo =  models.CharField(max_length=100)
     create_date=models.DateTimeField(auto_now_add=True)
+
+
+    def time_seconds(self):
+        return self.create_date.strftime("%Y-%m-%d %H:%M:%S")
+
+    time_seconds.admin_order_field = 'create_date'
+    time_seconds.short_description = 'Precise Time'
     
     def __unicode__(self):
         return str(self.id)

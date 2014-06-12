@@ -119,6 +119,8 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
+DATETIME_INPUT_FORMATS = ("%Y/%D %H:%M:%S")
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -128,6 +130,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
+    'xadmin',
+    'crispy_forms',
+#    'reversion',
+
     'records',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
