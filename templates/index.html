@@ -98,8 +98,10 @@ width=0; // pro bar
 augment= 100.0/time_limit;
 READY = "false";
 ROUND_FINISHED = "false";
-CURRENT_ROUND = 1
-ROUND_NUM = 3
+CURRENT_ROUND = 1;
+ROUND_NUM = 3;
+
+
 //pull data of others
 function pull(){
 $.ajax({
@@ -133,7 +135,13 @@ $(this).find(".btn-default").each(function (index){ //todo here
                 })
 
 
-ROUND_FINISHED = "true"
+ROUND_FINISHED = "true";
+//ROUND_NUM = ROUND_NUM -1;
+
+if(CURRENT_ROUND!=ROUND_NUM){
+CURRENT_ROUND = CURRENT_ROUND +1;
+round();
+}
             },
   error : function(httpReq,status,exception){
                 alert(status+" "+exception);
@@ -270,13 +278,13 @@ setTimeout("round()",2000);
 }
 else{
  console.log(1000);
-ROUND_NUM = ROUND_NUM - 1;
+//ROUND_NUM = ROUND_NUM - 1;
 pre_time_limit = {{PRE_TIMER}};
 time_limit={{TIMER}};//timer for each round
-$(".round_title").html("{{player}} &nbsp Round:2");
+$(".round_title").html("{{player}} &nbsp Round:"+CURRENT_ROUND);
 setTimeout("pre_timer()",1000);
 width=0; // pro bar
-CURRENT_ROUND =2;
+
 }
 
 }
@@ -284,7 +292,7 @@ CURRENT_ROUND =2;
 $(document).ready(function() {
 $(".btn-default").addClass("disabled");
 player_status();
-round();
+
 
 
 
