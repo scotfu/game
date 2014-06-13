@@ -11,7 +11,8 @@ class Record(models.Model):
     result = models.CharField(max_length=100)
     g_round = models.IntegerField()
     group = models.ForeignKey('Group')
-    create_date=models.DateTimeField(auto_now_add=True, verbose_name='finshed time')
+    score = models.IntegerField()
+    create_date = models.DateTimeField(auto_now_add=True, verbose_name='finshed time')
 
     def time_seconds(self):
         return self.create_date.strftime("%Y-%m-%d %H:%M:%S")
@@ -32,6 +33,8 @@ class Group(models.Model):
     name = models.CharField(max_length=100)
     num_of_players = models.IntegerField()
     memo =  models.CharField(max_length=100)
+    answer = models.CharField(max_length=100)
+    interval = models.IntegerField()
     create_date=models.DateTimeField(auto_now_add=True)
 
 
