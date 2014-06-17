@@ -17,7 +17,7 @@
 <h1 class="round_title"> {{player}} &nbsp Round:{{g_round}}</h1>
 <h3 class="timer text-center">Time: 20 seconds left</h3>
 
-<label class="my_score">  </label>
+<h4 class="my_score">  </h4>
 <div class="center-block row">
 
 <div class="btn-group self" data-toggle="buttons">
@@ -109,9 +109,9 @@ $.ajax({
   success: function(data) {
 $(".my_score").html('Score:'+data["my_score"]);
 $(".btn-group.others").remove();
-$("label.players").remove();
+$("h4.players").remove();
 for(var i=0;i<data["records"].length;i++){
-$(".container").append('<label class="players">'+data["records"][i]["player"]+' Score:'+data["records"][i]["score"]+'</label>');
+$(".container").append('<h4 class="players">'+data["records"][i]["player"]+' Score:'+data["records"][i]["score"]+'</h4>');
 $(".btn-group.self").clone().removeClass("self").addClass("others").appendTo(".container");
 
 }
