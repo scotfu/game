@@ -1,0 +1,141 @@
+{% extends base_template %}
+{% load i18n %}
+{% load url from future %}
+{% load xadmin_tags %}
+{% load crispy_forms_tags %}
+
+{% block bodyclass %}{{ opts.app_label }}-{{ opts.object_name.lower }} change-form{% endblock %}
+
+{% block nav_title %}{% if model_icon %}<i class="{{model_icon}}"><sub class="fa fa-{% if add%}plus{%else%}pencil{%endif%}"></sub></i> {% endif %}
+
+{{ title }}{% endblock %}
+
+{% block content %}
+<form class="exform" {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.module_name }}_form">{% csrf_token %}
+  {% block form_top %}{% endblock %}
+  {% view_block 'form_top' %}
+
+  {% if errors %}
+      <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {% blocktrans count counter=errors|length %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+      </div>
+      {{ form.non_field_errors }}
+  {% endif %}
+
+  {% view_block 'before_fieldsets' %}
+
+  {% crispy form %}
+
+  {% view_block 'after_fieldsets' %}
+<div class="btn-group self" data-toggle="buttons" style="display:none">
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="/static/images/1.png" alt="Shape 1" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current">
+<img src="/static/images/2.png" alt="Shape 2" height="68" width="68" style="opacity: 0.9;">
+  </label> 
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="/static/images/3.png" alt="Shape 3" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="/static/images/4.png" alt="Shape 4" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current">
+<img src="/static/images/5.png" alt="Shape 5" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="/static/images/6.png" alt="Shape 6" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="/static/images/7.png" alt="Shape 7" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="/static/images/8.png" alt="Shape 8" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="/static/images/9.png" alt="Shape 9" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="/static/images/10.png" alt="Shape 10" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="/static/images/11.png" alt="Shape 11" height="68" width="68" style="opacity: 0.9;">
+  </label>
+  <label class="btn btn-default">
+    <input type="checkbox" class="current"> 
+<img src="/static/images/12.png" alt="Shape 12" height="68" width="68" style="opacity: 0.9;">
+  </label>
+</div>
+
+</div>
+  {% block submit_buttons_bottom %}{% include "xadmin/includes/submit_line.html" %}{% endblock %}
+</form>
+
+<script type="text/javascript">
+result ="";
+
+$(document).ready(function() {
+
+if($("#id_name").val()=="ANSWER"){
+$("#div_id_value").hide();
+$(".btn-group.self").show();
+$(".btn-group.self").each(function (index_d){
+
+$(this).find(".btn-default").each(function (index){ //todo here
+                if($("#id_value").val()[index]=="1")
+                {
+
+                $(this).addClass("active");
+//                $(this).css("background-color","black");
+
+                $(".current",this).prop("checked", true);
+                }else{$(this).removeClass("active");}
+                
+                })
+
+                })
+
+
+
+
+
+}
+
+})
+
+jQuery(".exform").submit(function(e) {
+$(".self input[type=checkbox].current").each(function () {
+    var sThisVal = (this.checked ? "1" : "0");
+    result = result.concat(sThisVal);
+});
+alert(result);
+$("#id_value").val(result);
+
+});
+
+
+
+</script>
+
+{% endblock %}
+  {% block footer %}
+
+  <div id="footer">
+    <hr/>
+    <footer class="text-center">
+      <p>&copy; my-company.inc 2013</p>
+    </footer>
+  </div>
+  {% endblock %}
